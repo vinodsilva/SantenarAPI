@@ -11,7 +11,7 @@ const sendSms = require("../config/sms");
 
 
 
-app.get('/alert', jsonParser, async (req, res, next) => {
+router.get('/alert', async (req, res, next) => {
 
   const { deviceId, message } = req.body;
   const rs = await devicesModel.find({ deviceId: deviceId });
@@ -25,18 +25,20 @@ app.get('/alert', jsonParser, async (req, res, next) => {
   console.log(deviceId, email, name, phone, message);
 
 
-  // const msg = {
-  //   to: email, // Change to your recipient
-  //   from: '"Santenar" SantenarIOT@gmail.com', // Change to your verified sender
-  //   subject: `Motion alert ${new Date()}`,
-  //   html: `<strong>${message} has been detected with you Santenar Device ${did}, please check it</strong>`,
-  // }
+  const msg = {
+    to: email, // Change to your recipient
+    from: '"Santenar" SantenarIOT@gmail.com', // Change to your verified sender
+    subject: `{message} alert ${new Date()}`,
+    html: `<strong>${message} has been detected with you Santenar Device ${did}, please make sure to get into safety</strong>`,
+  }
 
   // const activity= await activityModel.create({
   //   deviceId:did,
   //  ipAddress:'12.232.32333.3',
   //  deviceOwnerDocId:'2Adws22dw',
   // })
+
+
   // sendSms(9713063026,`
   // Some activity has been detected with you DEVICE ID : ${did} at ${new Date()}.
   // `);
@@ -59,3 +61,5 @@ app.get('/alert', jsonParser, async (req, res, next) => {
 
   // next();
 })
+
+module.exports = router;
